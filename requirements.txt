@@ -1,0 +1,33 @@
+# requirements.txt
+#
+# To install all dependencies, run the following command in your terminal:
+# pip install -r requirements.txt
+
+# --- Core Deep Learning Framework (PyTorch) ---
+# NOTE: The versions below are for a CPU-only installation or a generic setup.
+# For optimal performance with a NVIDIA GPU, it is HIGHLY recommended to install
+# a CUDA-enabled version of PyTorch first.
+# Visit https://pytorch.org/get-started/locally/ to get the correct command
+# for your specific system and CUDA version.
+# Example command for CUDA 11.8:
+# pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+torch>=2.0.0
+torchvision>=0.15.1
+torchaudio>=2.0.1
+
+# --- Model & AI Libraries ---
+# For YOLOv8 object detection model
+ultralytics==8.0.228
+
+# For accessing the OpenAI CLIP model and other transformers
+transformers==4.35.2
+
+# --- Computer Vision & Image Processing ---
+# Core library for video/image processing, drawing, and I/O operations
+opencv-python==4.8.1.78
+
+# Fundamental package for numerical operations, especially with image arrays
+numpy==1.26.2
+
+# Python Imaging Library fork for opening, manipulating, and saving image files
+Pillow==10.1.0
