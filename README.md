@@ -28,16 +28,13 @@ A weighted score from both checks determines if the person is "Staff".
 Setup & Installation
 Clone the repository:
 
-git clone [https://github.com/yixin16/staff-detection-system.git](https://github.com/yixin16/Staff-Identification-with-Name-Tag-Detection)
-cd staff-detection-system
+git clone https://github.com/yixin16/Staff-Identification-with-Name-Tag-Detection.git
+cd Staff-Identification-with-Name-Tag-Detection
 
 Install dependencies: It is recommended to use a virtual environment.
 
 pip install -r requirements.txt
 
-(If a requirements.txt is not available, install the following manually):
-
-pip install torch torchvision torchaudio ultralytics transformers opencv-python numpy Pillow
 
 Note: For optimal performance, a CUDA-enabled GPU is highly recommended.
 
@@ -49,6 +46,5 @@ Provide a name tag sample: Crop an image of the name tag you want to detect and 
 Run the main script:
 
 python main.py
-
 
 An output window will appear showing the live detection. Press 'q' to quit the process.
