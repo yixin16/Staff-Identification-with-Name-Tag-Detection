@@ -1,50 +1,190 @@
-Smart Adaptive Zero-Shot Staff Identification System
-This project is an advanced AI surveillance system engineered to identify staff members in video footage in real-time. It uses a state-of-the-art, multi-stage pipeline to handle real-world challenges like variable video quality and the need for explainable decisions. The system's core strength is its ability to identify staff using just a single sample image of a name tag, without any need for model retraining.
+# 🧠 Smart Adaptive Zero-Shot Staff Identification System
 
-Key Features
-True Zero-Shot Capability: The system requires no re-training or fine-tuning. To identify a different name tag, one only needs to replace the nametag.jpg file. This is made possible by the generalized world knowledge embedded within the CLIP model.
+An **advanced AI surveillance system** designed to identify staff members in real-time video footage using a **single sample name tag image** — with **no retraining required**.  
+The system integrates **YOLOv8** for person detection, **OpenAI CLIP** for zero-shot identification, and an **adaptive video enhancement pipeline** for robust performance under varying video conditions.
 
-Explainable AI (XAI) for User Trust: The system does not just provide a label; it provides proof. By drawing a yellow rectangle on the exact patch that produced the highest visual similarity score, it shows the user why it made a decision, making the results transparent and verifiable.
+---
 
-Configurable & Adaptable: Key parameters (THRESHOLDS, WEIGHTS, PATHS) are centralized at the top of the script, allowing for easy tuning and adaptation to different operational environments without altering the core logic.
+## 🚀 Key Features
 
-Automated Evidence Collection: The system automatically saves a cropped thumbnail of every positively identified staff member to the staff_thumbnails directory, creating a log for security review.
+### 🔹 True Zero-Shot Identification
+- No model retraining or fine-tuning required.  
+- To detect a new staff name tag, simply replace `nametag.jpg`.  
+- Powered by CLIP’s generalized world knowledge for universal visual and textual understanding.
 
-How It Works
-The system operates on an intelligent three-stage pipeline:
+### 🔹 Explainable AI (XAI) for Transparency
+- Every positive identification highlights the **exact patch** (yellow rectangle) that triggered the match.  
+- Users can **see what the AI sees**, improving explainability and trust.
 
-Adaptive Frame Pre-Processing: It first analyzes each video frame for clarity. Low-quality or blurry frames are automatically put through an enhancement process (denoising, contrast adjustment, sharpening), while high-quality frames are passed through directly to save processing time.
+### 🔹 Smart Adaptive Frame Enhancement
+- Automatically detects **blurry or low-quality frames** using Laplacian variance.  
+- Applies **denoising, contrast enhancement, and sharpening** only when needed to save resources.
 
-Person Detection (YOLOv8): A lightweight YOLOv8 model detects all instances of people in the frame, drawing bounding boxes around them.
+### 🔹 Configurable & Modular
+- Key parameters (thresholds, weights, file paths) are centralized at the top of the script.  
+- Easy to tune and adapt to new environments without changing the logic.
 
-Multi-Modal Identification (OpenAI CLIP): For each detected person, a sophisticated two-part verification occurs:
+### 🔹 Automated Evidence Logging
+- Each positively identified staff member is saved as a cropped **thumbnail** under `staff_thumbnails/`.  
+- Facilitates audit trails, security reviews, and model explainability.
 
-Visual Match: The person's image is broken into patches, and each patch is compared to the nametag.jpg template to find a direct visual match.
+---
 
-Textual Match: The person's image is compared to semantic descriptions (e.g., "a person with a white rectangle on their chest") to provide contextual understanding.
+## 🧩 System Architecture
 
-A weighted score from both checks determines if the person is "Staff".
+```
+            ┌──────────────────────────────┐
+            │  Adaptive Frame Preprocessing│
+            │ (Enhance blurry frames only) │
+            └──────────────┬───────────────┘
+                           │
+                           ▼
+                ┌────────────────────┐
+                │  YOLOv8 Detection   │
+                │ (Person detection)  │
+                └──────────┬──────────┘
+                           │
+                           ▼
+             ┌───────────────────────────┐
+             │  OpenAI CLIP Verification │
+             │  • Visual Patch Matching  │
+             │  • Textual Semantic Match │
+             └───────────┬───────────────┘
+                         ▼
+                ┌─────────────────────┐
+                │ Weighted Fusion     │
+                │ → Staff / Non-Staff │
+                └─────────────────────┘
+```
 
-Setup & Installation
-Clone the repository:
+---
 
+## ⚙️ Installation
+
+### 1️⃣ Clone the Repository
+```bash
 git clone https://github.com/yixin16/Staff-Identification-with-Name-Tag-Detection.git
 cd Staff-Identification-with-Name-Tag-Detection
+```
 
-Install dependencies: It is recommended to use a virtual environment.
+### 2️⃣ Create and Activate a Virtual Environment
+```bash
+python -m venv venv
+source venv/bin/activate   # On macOS/Linux
+venv\Scripts\activate      # On Windows
+```
 
+### 3️⃣ Install Dependencies
+```bash
 pip install -r requirements.txt
+```
 
+> 💡 **Note:** A CUDA-enabled GPU is highly recommended for real-time processing performance.
 
-Note: For optimal performance, a CUDA-enabled GPU is highly recommended.
+---
 
-Usage
-Place your video file named sample.mp4 in the root directory of the project.
+## 🧠 How It Works
 
-Provide a name tag sample: Crop an image of the name tag you want to detect and save it as nametag.jpg in the root directory.
+### Step 1: Prepare Inputs
+- Place your **video file** in the root directory and name it:
+  ```
+  sample.mp4
+  ```
+- Crop a **sample name tag** image and save it as:
+  ```
+  nametag.jpg
+  ```
 
-Run the main script:
-
+### Step 2: Run the System
+```bash
 python main.py
+```
 
-An output window will appear showing the live detection. Press 'q' to quit the process.
+### Step 3: Observe the Results
+- A display window will open showing live detection results.  
+- Press **`q`** to quit processing.
+- Output includes:
+  - `smart_adaptive_output.mp4` → Annotated video  
+  - `staff_thumbnails/` → Cropped staff detections  
+  - On-screen logs → Frame clarity, enhancement status, and decisions  
+
+---
+
+## 🧪 Core Components
+
+| Component | Description |
+|------------|-------------|
+| **YOLOv8** | Detects all people in each frame. |
+| **CLIP Model** | Performs dual verification via visual patch similarity and semantic textual understanding. |
+| **Adaptive Frame Enhancement** | Dynamically enhances frames based on clarity score using Laplacian variance. |
+| **Explainability Layer** | Highlights the most similar image patch (yellow box) to justify decisions. |
+| **Evidence Logging** | Saves thumbnails of positively identified staff for later review. |
+
+---
+
+## 🧮 Key Parameters (Configurable)
+
+| Parameter | Description | Default |
+|------------|-------------|----------|
+| `PERSON_CONFIDENCE_THRESHOLD` | Minimum YOLO confidence for person detection | `0.4` |
+| `STAFF_CONFIDENCE_THRESHOLD` | Minimum weighted score to confirm "Staff" | `15.0` |
+| `TEXT_WEIGHT` / `IMAGE_WEIGHT` | Weighting between CLIP textual and visual similarity | `0.3 / 0.7` |
+| `BLUR_THRESHOLD` | Laplacian variance cutoff for detecting low-quality frames | `100.0` |
+
+---
+
+## 🧷 Output Files
+
+| File / Folder | Description |
+|----------------|-------------|
+| `smart_adaptive_output.mp4` | Final processed video with detection overlays |
+| `smart_adaptive_output/` | Directory containing video output |
+| `smart_adaptive_output/staff_thumbnails/` | Cropped thumbnails of identified staff members |
+| `nametag.jpg` | Reference sample for zero-shot identification |
+
+---
+
+## 🧠 Example Scenario
+
+1. Security footage (`sample.mp4`) is provided.
+2. System detects all persons using YOLOv8.
+3. Each person’s cropped image is analyzed by CLIP:
+   - **Visual match:** Compares each patch to the uploaded name tag.
+   - **Text match:** Evaluates if the person fits the prompt "a person with a small white rectangle on their chest".
+4. Both scores are fused; if above threshold → person is identified as **Staff**.
+5. The system marks:
+   - Green box → Staff  
+   - Blue box → Non-staff  
+   - Yellow box → Matched patch (visual proof)
+
+---
+
+## 📊 Sample Log Output
+
+```
+🚀 Starting Smart Adaptive Zero-Shot System...
+Using device: cuda
+
+Processing video... Press 'q' to quit.
+Frame 12: Low quality detected (Clarity: 85.23). Applying full enhancement pipeline.
+Frame 13: High quality frame (Clarity: 156.41). Skipping enhancement.
+
+✅ Processing complete.
+✅ Video saved to: smart_adaptive_output/smart_adaptive_output.mp4
+```
+
+---
+
+## 🧰 Tech Stack
+
+- **Python 3.10+**
+- **OpenCV**
+- **PyTorch**
+- **Ultralytics YOLOv8**
+- **OpenAI CLIP (ViT-B/32)**
+- **Transformers**
+- **Pillow, NumPy, datetime**
+
+---
+
+> *“Proof, not prediction — explainable AI for the real world.”*
